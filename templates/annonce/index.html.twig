@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}L'autreboncoin{% endblock %}
+
+{% block body %}
+    <h1>Bienvenue</h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+        
+        </tr>
+            <tr>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Prix</th>
+                <th>Photo</th>
+                <th>Localisation</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+    
+        {% for annonce in annonces %}
+            <tr>
+                <td>{{ annonce.Titre }}</td>
+                <td>{{ annonce.Description }}</td>
+                <td>{{ annonce.Prix }}</td> 
+                <td>{{ annonce.Photo }}</td>
+                <td>{{ annonce.Localisation }}</td>
+                <td>
+                
+                    <a href="{{ path('app_annonce_show', {'id': annonce.id}) }}">Voir</a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('app_annonce_edit', {'id': annonce.id}) }}">Modifier</a>
+                           {{ include('annonce/_delete_form.html.twig') }}
+                    {% endif %}
+                   
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if is_granted('ROLE_USER') %}
+      <a href="{{ path('app_annonce_new') }}">Create new</a>
+    {% endif %}
+    
+{% endblock %}
